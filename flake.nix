@@ -26,6 +26,7 @@
             trunk
             tailwindcss
             leptosfmt
+            mold
             (rust-bin.selectLatestNightlyWith (toolchain: toolchain.default.override {
               extensions = [ "rust-src" "rust-analyzer" ];
               targets = [ "wasm32-unknown-unknown" ];
