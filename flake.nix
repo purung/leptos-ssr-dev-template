@@ -28,7 +28,7 @@
             leptosfmt
             mold
             (rust-bin.selectLatestNightlyWith (toolchain: toolchain.default.override {
-              extensions = [ "rust-src" "rust-analyzer" ];
+              extensions = [ "rust-src" "rust-analyzer" "rustc-codegen-cranelift-preview" ];
               targets = [ "wasm32-unknown-unknown" ];
             }))
           ];

@@ -9,10 +9,10 @@ pub fn App() -> impl IntoView {
     provide_meta_context();
 
     view! {
-        <Stylesheet id="leptos" href="/pkg/tailwind.css"/>
+        <Stylesheet id="leptos" href="/pkg/gongiversum.css"/>
 
         // sets the document title
-        <Title text="Welcome to Leptos"/>
+        <Title text="Welcome to Leptor"/>
 
         // content for this welcome page
         <Router fallback=|| {
@@ -34,10 +34,10 @@ pub fn App() -> impl IntoView {
 fn HomePage() -> impl IntoView {
     // Creates a reactive value to update the button
     let (count, set_count) = create_signal(0);
-    let on_click = move |_| set_count.update(|count| *count += 1);
+    let on_click = move |_| set_count.update(|count| *count += 2);
 
     view! {
-        <h1 class="bg-amber-800 p-24">"Welcome to Leptos!"</h1>
+        <h1 class="bg-amber-800 p-24 text-emerald-400">"Welcome to Leptos!"</h1>
         <button on:click=on_click>"Click Me: " {count}</button>
     }
 }
