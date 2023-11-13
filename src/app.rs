@@ -34,11 +34,11 @@ pub fn App() -> impl IntoView {
 fn HomePage() -> impl IntoView {
     // Creates a reactive value to update the button
     let (count, set_count) = create_signal(0);
-    let on_click = move |_| set_count.update(|count| *count += 2);
+    let on_click = move |_| set_count.update(|count| *count += 3);
 
     view! {
-        <h1 class="bg-amber-800 p-24 text-emerald-400">"Welcome to Leptos!"</h1>
-        <button on:click=on_click>"Click Me: " {count}</button>
+        <h1 class="bg-amber-800 p-24 text-emerald-400">"Huuuuuu to Heeeee!"</h1>
+        <button on:click=on_click class="btn btn-primary">"Dick Me: " {count}</button>
     }
 }
 
