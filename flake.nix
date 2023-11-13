@@ -19,13 +19,21 @@
         cargo-leptos = pkgs.rustPlatform.buildRustPackage rec {
           pname = "cargo-leptos";
           version = "0.2.2";
-          # buildFeatures = [ "no_downloads" ]; # cargo-leptos will try to download Ruby and other things without this feature
+          buildFeatures = [ "no_downloads" ]; # cargo-leptos will try to download Ruby and other things without this feature
 
-          src = pkgs.fetchCrate {
-            inherit pname version;
+          src = pkgs.fetchgit {
+            url = "https://github.com/purung/cargo-leptos";
+            rev = "1d38a99f4302c3754ae1f353b5985d87bf0775b5";
+            sha256 = "hGNlnTpy05EX6WPmo4QkFv7SO+DFtsgDghZc53iY0kg=";
           };
-          cargoSha256 = "gWsU4FcQubleWaYi9Yro/jm+CNjtU9cT+xDpWyhZEbk=";
-
+          nativeBuildInputs = [ pkgs.pkg-config pkgs.openssl ];
+          cargoVendorDir = "vendor";
+          doCheck = false;
+          buildInputs = with pkgs;
+            [ openssl pkg-config ]
+            ++ lib.optionals stdenv.isDarwin [
+              Security
+            ];
           meta = with lib; {
             description = "A build tool for the Leptos web framework";
             homepage = "https://github.com/leptos-rs/cargo-leptos";
@@ -47,6 +55,7 @@
             leptosfmt
             mold
             cargo-leptos
+            binaryen
             (rust-bin.selectLatestNightlyWith (toolchain: toolchain.default.override {
               extensions = [ "rust-src" "rust-analyzer" "rustc-codegen-cranelift-preview" ];
               targets = [ "wasm32-unknown-unknown" ];
