@@ -33,12 +33,33 @@ pub fn App() -> impl IntoView {
 #[component]
 fn HomePage() -> impl IntoView {
     // Creates a reactive value to update the button
-    let (count, set_count) = create_signal(0);
-    let on_click = move |_| set_count.update(|count| *count += 3);
+    // let (count, set_count) = create_signal(0);
+    // let on_click = move |_| set_count.update(|count| *count += 3);
+    let (_, y) = leptos_use::use_window_scroll();
 
     view! {
-        <h1 class="bg-amber-800 p-24 text-emerald-400">"Huuuuuu to Heeeee!"</h1>
-        <button on:click=on_click class="btn btn-primary">"Dick Me: " {count}</button>
+        <section class="flex flex-col justify-end min-h-screen">
+            x: {move || format!("{:.1}", y())}
+            <div
+                class="w-full bg-amber-200 h-[100px]"
+                style:transform=move || format!("translateY(-{}px)", y() * 0.7)
+            >
+                A
+            </div>
+            <div
+                class="w-full bg-amber-400 h-[100px]"
+                style:transform=move || format!("translateY(-{}px)", y())
+            >
+                A
+            </div>
+            <div
+                class="w-full bg-amber-600 h-[100px]"
+                style:transform=move || format!("translateY(-{}px)", y() * 1.3)
+            >
+                A
+            </div>
+        </section>
+        <section class="h-[500vh]">D</section>
     }
 }
 
