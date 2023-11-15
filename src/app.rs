@@ -3,6 +3,9 @@ use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
 
+mod components;
+use components::*;
+
 #[component]
 pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
@@ -13,8 +16,15 @@ pub fn App() -> impl IntoView {
 
         // sets the document title
         <Title text="Welcome to Leptor"/>
-
+        <Link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <Link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin"/>
+        <Link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap"
+            rel="stylesheet"
+        />
         // content for this welcome page
+        <Nav />
+
         <Router fallback=|| {
             let mut outside_errors = Errors::default();
             outside_errors.insert_with_default_key(AppError::NotFound);
@@ -32,34 +42,21 @@ pub fn App() -> impl IntoView {
 /// Renders the home page of your application.
 #[component]
 fn HomePage() -> impl IntoView {
-    // Creates a reactive value to update the button
-    // let (count, set_count) = create_signal(0);
-    // let on_click = move |_| set_count.update(|count| *count += 3);
-    let (_, y) = leptos_use::use_window_scroll();
-
     view! {
-        <section class="flex flex-col justify-end min-h-screen">
-            x: {move || format!("{:.1}", y())}
-            <div
-                class="w-full bg-amber-200 h-[100px]"
-                style:transform=move || format!("translateY(-{}px)", y() * 0.7)
-            >
-                A
-            </div>
-            <div
-                class="w-full bg-amber-400 h-[100px]"
-                style:transform=move || format!("translateY(-{}px)", y())
-            >
-                A
-            </div>
-            <div
-                class="w-full bg-amber-600 h-[100px]"
-                style:transform=move || format!("translateY(-{}px)", y() * 1.3)
-            >
-                A
-            </div>
-        </section>
-        <section class="h-[500vh]">D</section>
+        <main>
+            <section class="bg-hoc-base-100 grid place-content-center min-h-screen w-full">
+                <div class="flex max-w-2xl">
+                    <div class="text-8xl font-bold text-accent">
+                        <h2>
+                            "Samtal som  " <span class="text-primary italic">"lindrar"</span> " och "
+                            <span class="text-primary italic">"förändrar"</span>
+                        </h2>
+                    </div>
+                    <div class="">"Bild"</div>
+                </div>
+
+            </section>
+        </main>
     }
 }
 
