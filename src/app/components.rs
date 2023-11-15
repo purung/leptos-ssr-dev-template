@@ -3,9 +3,9 @@ use leptos::*;
 #[component]
 pub fn Nav() -> impl IntoView {
     view! {
-        <nav class="w-full bg-primary flex">
-            <div class="shrink grid p-2"><span class="place-self-center">Logo</span></div>
-            <div class="flex grow bg-secondary py-4 justify-center">
+        <nav class="navbar">
+            <div class="navbar-start"><span class="place-self-center">Logo</span></div>
+            <div class="navbar-center">
                 <ul class="flex grow max-w-screen-lg gap-8 justify-end">
                     <li>
                         <a href="/services">Services</a>
@@ -18,6 +18,7 @@ pub fn Nav() -> impl IntoView {
                     </li>
                 </ul>
             </div>
+        <div class="navbar-end">Icon</div>
 
         </nav>
     }
