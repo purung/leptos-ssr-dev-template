@@ -1,23 +1,22 @@
 use leptos::*;
+use leptos_router::A;
 
 #[component]
 pub fn Nav() -> impl IntoView {
     view! {
-        <nav class="navbar">
-            <div class="navbar-start"><span class="place-self-center">Logo</span></div>
-            <div class="navbar-center">
-                <ul class="flex grow max-w-screen-lg gap-8 justify-end">
+        <nav class="navbar bg-primary rounded-b-lg">
+            <div class="navbar-start shrink"><span class="place-self-center">Logo</span></div>
+                <ul class="flex navbar-center w-1/2 max-w-screen-lg gap-12 justify-end">
                     <li>
-                        <a href="/services">Services</a>
+                        <A href="/services">Services</A>
                     </li>
                     <li>
-                        <a href="/vision">Vision</a>
+                        <A href="/vision">Vision</A>
                     </li>
                     <li>
-                        <a href="/contact">Contact</a>
+                        <A href="/contact">Contact</A>
                     </li>
                 </ul>
-            </div>
         <div class="navbar-end">Icon</div>
 
         </nav>

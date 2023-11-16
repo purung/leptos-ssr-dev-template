@@ -23,13 +23,13 @@ pub fn App() -> impl IntoView {
             rel="stylesheet"
         />
         // content for this welcome page
-        <Nav />
 
         <Router fallback=|| {
             let mut outside_errors = Errors::default();
             outside_errors.insert_with_default_key(AppError::NotFound);
             view! { <ErrorTemplate outside_errors/> }.into_view()
         }>
+        <Nav />
             <main>
                 <Routes>
                     <Route path="" view=HomePage/>
