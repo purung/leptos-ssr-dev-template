@@ -17,8 +17,14 @@ module.exports = {
          secondary: '#dac9c8',
          accent: '#567e81',
         },
+        dark: {
+         'neutral': '#e9f0f1',
+         'base-100': '#121a1c',
+         'primary': '#4c2946',
+         'secondary': '#061518',
+         'accent': '#907e5a',
+        },
       },
-      "dark"
     ],
   },
   plugins: [require("daisyui")],
