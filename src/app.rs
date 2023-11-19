@@ -12,10 +12,10 @@ pub fn App() -> impl IntoView {
     provide_meta_context();
 
     view! {
-        <Stylesheet id="leptos" href="/pkg/airborne_trash_patrol.css"/>
+        <Stylesheet id="leptos" href="/pkg/birds-psy.css"/>
 
         // sets the document title
-        <Title text="Airborne Trash Platoon"/>
+        <Title text="Ovanifrånvy"/>
         <Link rel="preconnect" href="https://fonts.googleapis.com"/>
         <Link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin"/>
         <Link
@@ -44,30 +44,6 @@ pub fn App() -> impl IntoView {
 fn HomePage() -> impl IntoView {
     view! {
         <main>
-            <section class="bg-hoc-base-100 grid place-content-center min-h-screen w-full">
-                <div class="max-w-[80vw] grid gap-8 grid-cols-1 md:grid-cols-2" >
-                    <div class="grid place-content-center">
-                        <h2 class="text-6xl font-bold text-accent m-8">
-                            "Sudden cleanliness "
-                            <span class="text-primary italic">"from above"</span>
-                        </h2>
-                        <p class="text-xl m-8">
-                            "On the fly precision waste removal by the Airborne Trash Platoon"
-                        </p>
-                        <div class="grid grid-cols-smol gap-4 m-8" style="--min: 15rem;">
-                            <A href="/offers" class="btn btn-outline btn-primary">
-                                "See current offers "
-                            </A>
-                            <A href="/order" class="btn btn-accent text-base-100">
-                                "Request pickup"
-                            </A>
-                        </div>
-                    </div>
-                    <div class="order-first md:order-last">
-                        <img src="hero.png"/>
-                    </div>
-                </div>
-            </section>
         </main>
     }
 }

@@ -4,8 +4,8 @@ async fn main() {
     use axum::{routing::post, Router};
     use leptos::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
-    use airborne_trash_patrol::app::*;
-    use airborne_trash_patrol::fileserv::file_and_error_handler;
+    use birds_psy::app::*;
+    use birds_psy::fileserv::file_and_error_handler;
 
     simple_logger::init_with_level(log::Level::Debug).expect("couldn't initialize logging");
 
