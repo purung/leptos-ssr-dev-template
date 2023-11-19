@@ -5,6 +5,9 @@ module.exports = {
   },
   theme: {
     extend: {
+      gridTemplateColumns: {
+        'smol': 'repeat(auto-fit, minmax(min(100%, var(--min)), 1fr))'
+      }
     },
   },
   daisyui: {

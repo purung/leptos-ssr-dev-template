@@ -7,6 +7,14 @@
 
 This is a template for use with the [Leptos](https://github.com/leptos-rs/leptos) web framework and the [cargo-leptos](https://github.com/akesson/cargo-leptos) tool using [Axum](https://github.com/tokio-rs/axum).
 
+## Tweaks in this repo
+
+- Configured to use performance enhancements discussed in [Benwis' blog]()
+- Configured to use tailwind with [daisy-ui]() with custom themes
+- Nix dev shell with cargo leptos build from git
+- Quality of life tooling with zellij and just
+- Leptos-use, leptos-icons
+
 ## Creating your template repo
 
 If you don't have `cargo-leptos` installed you can install it with

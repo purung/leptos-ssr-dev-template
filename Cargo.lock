@@ -50,6 +50,31 @@ dependencies = [
 ]
 
 [[package]]
+name = "airborne_trash_patrol"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "cfg-if",
+ "console_error_panic_hook",
+ "console_log",
+ "http",
+ "leptos",
+ "leptos-use",
+ "leptos_axum",
+ "leptos_icons",
+ "leptos_meta",
+ "leptos_router",
+ "log",
+ "simple_logger",
+ "thiserror",
+ "tokio",
+ "tower",
+ "tower-http",
+ "tracing",
+ "wasm-bindgen",
+]
+
+[[package]]
 name = "allocator-api2"
 version = "0.2.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -755,30 +780,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "gongiversum"
-version = "0.1.0"
-dependencies = [
- "axum",
- "cfg-if",
- "console_error_panic_hook",
- "console_log",
- "http",
- "leptos",
- "leptos-use",
- "leptos_axum",
- "leptos_meta",
- "leptos_router",
- "log",
- "simple_logger",
- "thiserror",
- "tokio",
- "tower",
- "tower-http",
- "tracing",
- "wasm-bindgen",
-]
-
-[[package]]
 name = "h2"
 version = "0.3.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -911,6 +912,31 @@ dependencies = [
  "tower-service",
  "tracing",
  "want",
+]
+
+[[package]]
+name = "icondata"
+version = "0.0.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f41f2deec9249d16ef6b1a8442fbe16013f67053797052aa0b7d2f5ebd0f0098"
+dependencies = [
+ "icondata_core",
+ "icondata_io",
+]
+
+[[package]]
+name = "icondata_core"
+version = "0.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1640a4c1d5ddd08ab1d9854ffa7a2fa3dc52339492676b6d3031e77ca579f434"
+
+[[package]]
+name = "icondata_io"
+version = "0.0.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "134d9fb91cdd0e7ac971199e2c8c8eb917a975faeeee54b227a0068c4f70c886"
+dependencies = [
+ "icondata_core",
 ]
 
 [[package]]
@@ -1147,6 +1173,17 @@ dependencies = [
  "serde",
  "syn 2.0.39",
  "walkdir",
+]
+
+[[package]]
+name = "leptos_icons"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8b3fad7820b18b983d49ff4262df88de94dc8fd993278937979cc0dd188868e5"
+dependencies = [
+ "icondata",
+ "leptos",
+ "tracing",
 ]
 
 [[package]]
