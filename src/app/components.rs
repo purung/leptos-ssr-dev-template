@@ -3,6 +3,21 @@ use leptos_icons::*;
 use leptos_router::A;
 
 #[component]
+pub fn Login() -> impl IntoView {
+    view! {}
+}
+
+#[component]
+pub fn Contactcard() -> impl IntoView {
+    view! {}
+}
+
+#[component]
+pub fn Cardcollection() -> impl IntoView {
+    view! {}
+}
+
+#[component]
 pub fn Nav() -> impl IntoView {
     view! {
         <nav class="navbar bg-primary rounded-b-lg">
