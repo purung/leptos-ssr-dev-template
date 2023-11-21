@@ -26,9 +26,14 @@ tracing = { version = "0.1.37", optional = true }
 http = "0.2.8"
 leptos-use = "0.8.2"
 leptos_icons = { version = "0.1.0", default_features = false, features = ["IoTrash"] }
+serde = { version = "1.0.192", features = ["derive"] }
+chrono = { version = "0.4.31", features = ["serde"] }
+ulid = { version = "1.1.0", features = ["serde"] }
+leptos_query = { version = "0.3.0", features = ["hydrate", "ssr"] }
+sqlx = { version = "0.7.2", features = ["chrono", "uuid"] }
 
 [features]
-hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate"]
+hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate", "leptos_query/hydrate"]
 ssr = [
     "dep:axum",
     "dep:tokio",
@@ -39,6 +44,7 @@ ssr = [
     "leptos_meta/ssr",
     "leptos_router/ssr",
     "leptos-use/ssr",
+    "leptos_query/ssr",
     "dep:tracing",
 ]
 

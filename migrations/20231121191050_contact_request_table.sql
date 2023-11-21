@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS contact_request (
+    uuid UUID NOT NULL PRIMARY KEY
+    name VARCHAR(255) NOT NULL,
+    tel VARCHAR(20) NOT NULL,
+    special VARCHAR(255) NOT NULL,
+    timestamp TIMESTAMPTZ NOT NULL,
+);

@@ -1,15 +1,42 @@
 use crate::error_template::{AppError, ErrorTemplate};
+use chrono::{DateTime, Local};
 use leptos::*;
 use leptos_meta::*;
+use leptos_query::provide_query_client;
 use leptos_router::*;
+use ulid::Ulid;
+
+use serde::{Deserialize, Serialize};
+// mod actions;
+// use actions::*;
+#[cfg(feature = "ssr")]
+mod db;
 
 mod components;
 use components::*;
+mod please;
+use please::*;
+mod errors;
+use errors::*;
+
+#[derive(Debug, Serialize, Clone, Deserialize)]
+struct Contact {
+    name: String,
+    tel: String,
+    special: String,
+    timestamp: DateTime<Local>,
+    stamp: Ulid,
+}
+
+impl Contact {
+    fn new(name: String, tel: String, special: String) -> Self { Self { name, tel, special, timestamp: Local::now(), stamp: Ulid::new() } }
+}
 
 #[component]
 pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
     provide_meta_context();
+    provide_query_client();
 
     view! {
         <Stylesheet id="leptos" href="/pkg/birds-psy.css"/>
@@ -42,9 +69,6 @@ pub fn App() -> impl IntoView {
 /// Renders the home page of your application.
 #[component]
 fn HomePage() -> impl IntoView {
-    view! {
-        <main>
-        </main>
-    }
+    view! { <main></main> }
 }
 
