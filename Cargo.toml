@@ -30,7 +30,13 @@ serde = { version = "1.0.192", features = ["derive"] }
 chrono = { version = "0.4.31", features = ["serde"] }
 ulid = { version = "1.1.0", features = ["serde"] }
 leptos_query = { version = "0.3.0", features = ["hydrate", "ssr"] }
-sqlx = { version = "0.7.2", features = ["chrono", "uuid"] }
+sqlx = { version = "0.7.2", features = ["chrono", "postgres", "runtime-tokio"], optional = true }
+async-trait = { version = "0.1.74", optional = true }
+tower-cookies = { version = "0.9.0", optional = true }
+once_cell = { version = "1.18.0", optional = true }
+strum = { version = "0.25.0", optional = true, features = ["derive"] }
+pasetors = { version = "0.6.7", optional = true }
+anyhow = "1.0.75"
 
 [features]
 hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate", "leptos_query/hydrate"]
@@ -46,6 +52,11 @@ ssr = [
     "leptos-use/ssr",
     "leptos_query/ssr",
     "dep:tracing",
+    "dep:sqlx",
+    "dep:async-trait",
+    "dep:tower-cookies",
+    "dep:once_cell",
+    "dep:strum"
 ]
 
 # Defines a size-optimized profile for the WASM bundle in release mode
