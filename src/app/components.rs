@@ -58,4 +58,3 @@ pub fn Nav() -> impl IntoView {
         </nav>
     }
 }
-

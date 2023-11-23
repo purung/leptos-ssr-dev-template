@@ -7,8 +7,6 @@ use leptos_router::*;
 use ulid::Ulid;
 
 use serde::{Deserialize, Serialize};
-// mod actions;
-// use actions::*;
 #[cfg(feature = "ssr")]
 mod db;
 
@@ -20,16 +18,24 @@ mod errors;
 use errors::*;
 
 #[derive(Debug, Serialize, Clone, Deserialize)]
-struct Contact {
+pub struct Contact {
+    stamp: Ulid,
     name: String,
     tel: String,
     special: String,
     timestamp: DateTime<Local>,
-    stamp: Ulid,
 }
 
 impl Contact {
-    fn new(name: String, tel: String, special: String) -> Self { Self { name, tel, special, timestamp: Local::now(), stamp: Ulid::new() } }
+    fn new(name: String, tel: String, special: String) -> Self {
+        Self {
+            name,
+            tel,
+            special,
+            timestamp: Local::now(),
+            stamp: Ulid::new(),
+        }
+    }
 }
 
 #[component]
@@ -69,6 +75,11 @@ pub fn App() -> impl IntoView {
 /// Renders the home page of your application.
 #[component]
 fn HomePage() -> impl IntoView {
-    view! { <main></main> }
-}
+    view! {
+        <main>
+            <div>
 
+        "Hahahaha"</div>
+        </main>
+    }
+}
