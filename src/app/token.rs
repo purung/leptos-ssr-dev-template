@@ -26,9 +26,13 @@ use axum::extract::Path;
 
 use super::error::AuthError;
 
+enum User {
+    Maria,
+    Admin
+}
+
 const WEEK: cookie::time::Duration = cookie::time::Duration::seconds(60 * 60 * 24 * 7);
 const COOKIE_NAME: &str = "passauth";
-const ACCEPTABLE_USERS: &[&'static str; 2] = ["maria", "admin"];
 static SYMMETRIC_KEY: OnceCell<SymmetricKey<V4>> = OnceCell::new();
 
 fn symmetric_key_please() -> Result<&'static SymmetricKey<V4>> {
