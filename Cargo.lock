@@ -245,6 +245,7 @@ dependencies = [
  "http",
  "leptos",
  "leptos-use",
+ "leptos_animated_for",
  "leptos_axum",
  "leptos_icons",
  "leptos_meta",
@@ -1430,6 +1431,19 @@ dependencies = [
  "paste",
  "wasm-bindgen",
  "wasm-bindgen-futures",
+ "web-sys",
+]
+
+[[package]]
+name = "leptos_animated_for"
+version = "0.0.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2b1d1449980e0019b0e70817306b05d379339fa0815ea3d3b31079ef28f36704"
+dependencies = [
+ "cfg-if",
+ "futures",
+ "leptos",
+ "wasm-bindgen",
  "web-sys",
 ]
 
