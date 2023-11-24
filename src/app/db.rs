@@ -1,6 +1,6 @@
 use async_trait::async_trait;
 use chrono::{DateTime, Local};
-use leptos::{use_context, ServerFnError};
+use leptos::use_context;
 use sqlx::PgPool;
 use ulid::Ulid;
 
@@ -19,7 +19,10 @@ struct PgCard {
 impl Communicate<Contact, PgPool> for Contact{
 
     async fn power() -> Result<PgPool, EyeError> {
-        Ok(use_context::<PgPool>().ok_or(EyeError::ConfigError)?)
+        log::info!("Getting context, is this it?");
+        let ctx =  use_context::<PgPool>().ok_or(EyeError::ConfigError)?; 
+        log::info!("Got context, is this it?");
+       Ok(ctx)
     }
     async fn birth(&self) -> Result<(), EyeError> {
         sqlx::query(
@@ -51,7 +54,7 @@ impl Communicate<Contact, PgPool> for Contact{
     }
 
     async fn all() -> Result<Vec<Contact>, EyeError> {
-        Ok(sqlx::query_as::<_, PgCard>("select * from contat_request")
+        Ok(sqlx::query_as::<_, PgCard>("select * from contact_request")
             .fetch_all(&Self::power().await?)
             .await?
             .into_iter()

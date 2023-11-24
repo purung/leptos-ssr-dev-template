@@ -1,6 +1,12 @@
 use leptos::*;
 use leptos_icons::*;
+use leptos_query::{QueryResult, use_query, QueryOptions};
 use leptos_router::A;
+use leptos_animated_for::AnimatedFor;
+
+use crate::app::please::{all_contact_requests, lol};
+
+use super::Contact;
 
 // #[component]
 // pub fn Login() -> impl IntoView {
@@ -8,53 +14,56 @@ use leptos_router::A;
 // }
 
 // #[component]
-// pub fn Contactcard() -> impl IntoView {
-//     view! {}
+// pub fn ContactCard(card: Contact) -> impl IntoView {
+//     view! {
+//         <div class="card w-96 bg-primary text-primary-content">
+//           <div class="card-body">
+//             <h2 class="card-title">{ card.name }</h2>
+//             <p>{ card.tel }</p>
+//             <p>{ card.special }</p>
+//             <div class="card-actions justify-end">
+//               <button class="btn">Radera</button>
+//             </div>
+//           </div>
+//         </div>
+//     }
 // }
 
-// #[component]
-// pub fn Cardcollection() -> impl IntoView {
-//     view! {}
-// }
 
 #[component]
-pub fn Nav() -> impl IntoView {
+pub fn CardCollection() -> impl IntoView {
+    let QueryResult { data, refetch, .. } = use_query(|| (), 
+        |_| async move {
+        lol().await.unwrap_or_default()
+        }, 
+        QueryOptions::default()
+    );
+    let cards = Signal::derive(move || data().unwrap_or_default());
     view! {
-        <nav class="navbar bg-primary rounded-b-lg">
-            <div class="navbar-start shrink">
+        <div class="place-self-start m-8">
 
-                <span class="place-self-center ml-4 border-2 rounded-full border-base-100 ">
-                    <Icon icon=Icon::from(IoIcon::IoTrash) class="w-10 h-10 p-1 text-base-100"/>
-                </span>
-            </div>
-            <ul class="flex navbar-center w-1/2 max-w-screen-lg gap-12 justify-end">
-                <li>
-                    <A href="/vision">Vision</A>
-                </li>
-                <div class="dropdown">
-                    <label tabindex="0" class="m-1 btn btn-ghost bg-inherit">
-                        Services
-                    </label>
-                    <ul
-                        tabindex="0"
-                        class="menu dropdown-content z-[1] bg-base-100 shadow rounded-box w-52"
-                    >
-                        <li>
-                            <A href="/services">"Food waste recycling"</A>
-                        </li>
-                        <li>
-                            <A href="/services">"Trinket manangement"</A>
-                        </li>
-                        <li>
-                            <A href="/services">"Scrap relocation"</A>
-                        </li>
-                    </ul>
-                </div>
-                <li>
-                    <A href="/contact">Contact</A>
-                </li>
-            </ul>
-            <div class="navbar-end">Icon</div>
-        </nav>
+             <AnimatedFor
+                each=cards
+                key=|card| card.stamp.clone()
+                children=move |card| view! { <p>"Oj"</p> }
+                enter_from_class="opacity-0"
+                enter_class="duration-800"
+                move_class="duration-1200"
+                leave_class="opacity-0 duration-500"
+                appear=true
+            />
+        </div>
     }
 }
+
+
+            //  <AnimatedFor
+            //     each=cards
+            //     key=|card| card.stamp
+            //     children=|card| view! { <ContactCard card /> }
+            //     enter_from_class="opacity-0"
+            //     enter_class="duration-800"
+            //     move_class="duration-1200"
+            //     leave_class="opacity-0 duration-500"
+            //     appear=true
+            // />

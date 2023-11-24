@@ -1,18 +1,26 @@
+#[cfg(feature = "ssr")]
 use std::sync::LazyLock;
 
-use async_trait::async_trait;
 use leptos::*;
+#[cfg(feature = "ssr")]
 use leptos_axum::redirect;
+
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 use ulid::Ulid;
 
+#[cfg(feature = "ssr")]
+use async_trait::async_trait;
+#[cfg(feature = "ssr")]
 use super::errors::EyeError;
+
 use super::Contact;
 
+#[cfg(feature = "ssr")]
 static HOMEPAGE: LazyLock<String> =
     LazyLock::new(|| std::env::var("HOMEPAGE_URL").unwrap_or_default());
 
+#[cfg(feature = "ssr")]
 #[async_trait]
 pub trait Communicate<Subject, Dialect>
 where
@@ -46,4 +54,9 @@ pub async fn delete_contact_request(
 #[server]
 pub async fn all_contact_requests() -> Result<Vec<Contact>, ServerFnError> {
     Ok(Contact::all().await?)
+}
+
+#[server]
+pub async fn lol() -> Result<Vec<Contact>, ServerFnError> {
+    Ok(vec![Contact::default()])
 }
