@@ -1,4 +1,3 @@
-
 #[cfg(feature = "ssr")]
 mod lpt;
 
@@ -27,8 +26,7 @@ async fn main() {
     let addr = leptos_options.site_addr;
     let routes = generate_route_list(App);
 
-    let pg_addr = option_env!("DATABASE_URL").unwrap()
-    ;
+    let pg_addr = option_env!("DATABASE_URL").unwrap();
 
     let pool = PgPoolOptions::new()
         .max_connections(3)
@@ -39,7 +37,7 @@ async fn main() {
 
     let app_state = lpt::AppState {
         leptos_options,
-        pool,
+        pool: pool.clone(),
         routes: routes.clone(),
     };
 
@@ -69,6 +67,3 @@ pub fn main() {
     // unless we want this to work with e.g., Trunk for a purely client-side app
     // see lib.rs for hydration function instead
 }
-
-
-
