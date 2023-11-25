@@ -8,7 +8,7 @@ use super::{errors::EyeError, please::Communicate, Contact};
 
 #[derive(sqlx::FromRow, Debug)]
 struct PgCard {
-    stamp: String,
+    uuid: String,
     name: String,
     tel: String,
     special: String,
@@ -16,13 +16,12 @@ struct PgCard {
 }
 
 #[async_trait]
-impl Communicate<Contact, PgPool> for Contact{
-
+impl Communicate<Contact, PgPool> for Contact {
     async fn power() -> Result<PgPool, EyeError> {
         log::info!("Getting context, is this it?");
-        let ctx =  use_context::<PgPool>().ok_or(EyeError::ConfigError)?; 
+        let ctx = use_context::<PgPool>().ok_or(EyeError::ConfigError)?;
         log::info!("Got context, is this it?");
-       Ok(ctx)
+        Ok(ctx)
     }
     async fn birth(&self) -> Result<(), EyeError> {
         sqlx::query(
@@ -44,28 +43,31 @@ impl Communicate<Contact, PgPool> for Contact{
     async fn destroy(ulid: Ulid) -> Result<(), EyeError> {
         sqlx::query(
             r#"
-            delete from contact_request where uuid = $?
+            delete from contact_request where uuid = $1
         "#,
         )
         .bind(&ulid.to_string())
         .execute(&Self::power().await?)
-        .await?;
+        .await.unwrap();
         Ok(())
     }
 
     async fn all() -> Result<Vec<Contact>, EyeError> {
-        Ok(sqlx::query_as::<_, PgCard>("select * from contact_request")
+        log::info!("Grabbing all cards");
+        let rows = sqlx::query_as::<_, PgCard>("select * from contact_request")
             .fetch_all(&Self::power().await?)
             .await?
             .into_iter()
             .map(Into::into)
-            .collect())
+            .collect::<Vec<Contact>>();
+        log::info!("Got {} rows", rows.len());
+        Ok(rows)
     }
 }
 impl Into<Contact> for PgCard {
     fn into(self) -> Contact {
         Contact {
-            stamp: Ulid::from_string(&self.stamp).unwrap_or_default(),
+            stamp: Ulid::from_string(&self.uuid).unwrap_or_default(),
             name: self.name,
             tel: self.tel,
             special: self.special,

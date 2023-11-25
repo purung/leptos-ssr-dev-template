@@ -6,8 +6,8 @@ use leptos_router::*;
 use ulid::Ulid;
 
 use serde::{Deserialize, Serialize};
-// #[cfg(feature = "ssr")]
-// pub mod db;
+#[cfg(feature = "ssr")]
+pub mod db;
 
 pub mod components;
 pub use components::*;
