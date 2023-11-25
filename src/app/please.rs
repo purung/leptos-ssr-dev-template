@@ -32,31 +32,31 @@ where
     async fn all() -> Result<impl IntoIterator<Item = Subject>, EyeError>;
 }
 
-#[server]
-pub async fn add_contact_request(
-    name: String,
-    tel: String,
-    special: String,
-) -> Result<(), ServerFnError> {
-    Contact::new(name, tel, special).birth().await?;
-    redirect(&HOMEPAGE);
-    Ok(())
-}
+// #[server]
+// pub async fn add_contact_request(
+//     name: String,
+//     tel: String,
+//     special: String,
+// ) -> Result<(), ServerFnError> {
+//     Contact::new(name, tel, special).birth().await?;
+//     redirect(&HOMEPAGE);
+//     Ok(())
+// }
 
-#[server]
-pub async fn delete_contact_request(
-    ulid: Ulid
-) -> Result<(), ServerFnError> {
-    Contact::destroy(ulid).await?;
-    Ok(())
-}
+// #[server]
+// pub async fn delete_contact_request(
+//     ulid: Ulid
+// ) -> Result<(), ServerFnError> {
+//     Contact::destroy(ulid).await?;
+//     Ok(())
+// }
 
-#[server]
-pub async fn all_contact_requests() -> Result<Vec<Contact>, ServerFnError> {
-    Ok(Contact::all().await?)
-}
+// #[server]
+// pub async fn all_contact_requests() -> Result<Vec<Contact>, ServerFnError> {
+//     Ok(Contact::all().await?)
+// }
 
-#[server]
+#[server(Lol, "/api")]
 pub async fn lol() -> Result<Vec<Contact>, ServerFnError> {
     Ok(vec![Contact::default()])
 }
