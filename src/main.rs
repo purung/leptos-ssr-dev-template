@@ -1,12 +1,12 @@
-#[cfg(feature = "ssr")]
-mod lpt;
+// #[cfg(feature = "ssr")]
+// mod lpt;
 
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
     use std::time::Duration;
 
-    use axum::routing::get;
+    use axum::routing::{get, post};
     use axum::Router;
     use birds_psy::app::*;
     use birds_psy::fileserv::file_and_error_handler;
@@ -28,29 +28,31 @@ async fn main() {
 
     let pg_addr = option_env!("DATABASE_URL").unwrap();
 
-    let pool = PgPoolOptions::new()
-        .max_connections(3)
-        .acquire_timeout(Duration::from_secs(3))
-        .idle_timeout(Duration::from_secs(90))
-        .connect_lazy(pg_addr)
-        .expect("can't connect to database");
+    // let pool = PgPoolOptions::new()
+    //     .max_connections(3)
+    //     .acquire_timeout(Duration::from_secs(3))
+    //     .idle_timeout(Duration::from_secs(90))
+    //     .connect_lazy(pg_addr)
+    //     .expect("can't connect to database");
 
-    let app_state = lpt::AppState {
-        leptos_options,
-        pool: pool.clone(),
-        routes: routes.clone(),
-    };
+    // let app_state = lpt::AppState {
+    //     leptos_options,
+    //     pool: pool.clone(),
+    //     routes: routes.clone(),
+    // };
 
     // build our application with a route
     let app = Router::new()
-        .route(
-            "/api/*fn_name",
-            get(lpt::server_fn_handler).post(lpt::server_fn_handler),
-        )
-        // .leptos_routes(&leptos_options, routes, App)
-        .leptos_routes_with_handler(routes, get(lpt::leptos_routes_handler))
+        // .route(
+        //     "/api/*fn_name",
+        //     get(lpt::server_fn_handler).post(lpt::server_fn_handler),
+        // )
+        .route("/api/*fn_name", post(leptos_axum::handle_server_fns))
+        .leptos_routes(&leptos_options, routes, || view! { <App /> })
+        // .leptos_routes_with_handler(routes, get(lpt::leptos_routes_handler))
         .fallback(file_and_error_handler)
-        .with_state(app_state);
+        // .with_state(app_state);
+        .with_state(leptos_options);
 
     // run our app with hyper
     // `axum::Server` is a re-export of `hyper::Server`

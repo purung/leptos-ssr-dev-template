@@ -2,20 +2,19 @@ use crate::error_template::{AppError, ErrorTemplate};
 use chrono::{DateTime, Local};
 use leptos::*;
 use leptos_meta::*;
-use leptos_query::provide_query_client;
 use leptos_router::*;
 use ulid::Ulid;
 
 use serde::{Deserialize, Serialize};
-#[cfg(feature = "ssr")]
-mod db;
+// #[cfg(feature = "ssr")]
+// pub mod db;
 
-mod components;
-use components::*;
-mod please;
-use please::*;
-mod errors;
-use errors::*;
+pub mod components;
+pub use components::*;
+pub mod please;
+pub use please::*;
+pub mod errors;
+pub use errors::*;
 
 #[derive(Debug, Serialize, Clone, Deserialize)]
 pub struct Contact {
@@ -51,7 +50,6 @@ impl Default for Contact {
 pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
     provide_meta_context();
-    provide_query_client();
 
     view! {
         <Stylesheet id="leptos" href="/pkg/birds-psy.css"/>
@@ -85,16 +83,7 @@ pub fn App() -> impl IntoView {
 fn HomePage() -> impl IntoView {
     view! {
         <main class="bg-primary h-[100svh] grid">
-            <Transition fallback=move || view! { <div class="place-self-center loading loading-dots"></div> }>
-                <ErrorBoundary fallback=move |_| view! {
-                    <div role="alert" class="alert alert-error place-self-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                      <span>"Error! Task failed successfully."</span>
-                    </div>
-                     } >
-                    <CardCollection /> 
-                </ErrorBoundary>
-            </Transition>
+            <CardCollection /> 
         </main>
     }
 }

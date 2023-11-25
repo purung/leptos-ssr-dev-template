@@ -16,21 +16,21 @@ use super::errors::EyeError;
 
 use super::Contact;
 
-#[cfg(feature = "ssr")]
-static HOMEPAGE: LazyLock<String> =
-    LazyLock::new(|| std::env::var("HOMEPAGE_URL").unwrap_or_default());
+// #[cfg(feature = "ssr")]
+// static HOMEPAGE: LazyLock<String> =
+//     LazyLock::new(|| std::env::var("HOMEPAGE_URL").unwrap_or_default());
 
-#[cfg(feature = "ssr")]
-#[async_trait]
-pub trait Communicate<Subject, Dialect>
-where
-    Subject: Serialize + DeserializeOwned,
-{
-    async fn power() -> Result<Dialect, EyeError>;
-    async fn birth(&self) -> Result<(), EyeError>;
-    async fn destroy(ulid: Ulid) -> Result<(), EyeError>;
-    async fn all() -> Result<impl IntoIterator<Item = Subject>, EyeError>;
-}
+// #[cfg(feature = "ssr")]
+// #[async_trait]
+// pub trait Communicate<Subject, Dialect>
+// where
+//     Subject: Serialize + DeserializeOwned,
+// {
+//     async fn power() -> Result<Dialect, EyeError>;
+//     async fn birth(&self) -> Result<(), EyeError>;
+//     async fn destroy(ulid: Ulid) -> Result<(), EyeError>;
+//     async fn all() -> Result<impl IntoIterator<Item = Subject>, EyeError>;
+// }
 
 // #[server]
 // pub async fn add_contact_request(
