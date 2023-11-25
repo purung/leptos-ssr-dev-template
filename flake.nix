@@ -26,7 +26,7 @@
           buildFeatures = [ "no_downloads" ]; # cargo-leptos will try to download Ruby and other things without this feature
 
           src = inputs.cargo-leptos-git;
-          cargoSha256 = "sha256-gJntR2PcKZG7iPy33HsxqkecEYwdNZ1rpY/Vsx0bymI=";
+          cargoSha256 = "sha256-AojFSc0SGpDnz6HYL0gJni9iLzNddQie1ZKgUyIQARA=";
           nativeBuildInputs = [ pkgs.pkg-config pkgs.openssl ];
           doCheck = false;
           buildInputs = with pkgs;
@@ -55,6 +55,7 @@
             leptosfmt
             mold
             cargo-leptos-git
+            sass
             binaryen
             sqlx-cli
             (rust-bin.selectLatestNightlyWith (toolchain: toolchain.default.override {
