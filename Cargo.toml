@@ -61,6 +61,11 @@ ssr = [
     "dep:strum"
 ]
 
+
+[package.metadata.cargo-all-features]
+denylist = ["axum", "tower", "tower-http", "tokio", "sqlx", "leptos_axum"]
+skip_feature_sets = [["ssr", "hydrate"]]
+
 # Defines a size-optimized profile for the WASM bundle in release mode
 [profile.wasm-release]
 inherits = "release"
