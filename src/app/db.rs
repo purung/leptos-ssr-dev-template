@@ -18,9 +18,7 @@ struct PgCard {
 #[async_trait]
 impl Communicate<Contact, PgPool> for Contact {
     async fn power() -> Result<PgPool, EyeError> {
-        log::info!("Getting context, is this it?");
         let ctx = use_context::<PgPool>().ok_or(EyeError::ConfigError)?;
-        log::info!("Got context, is this it?");
         Ok(ctx)
     }
     async fn birth(&self) -> Result<(), EyeError> {
