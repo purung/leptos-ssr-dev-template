@@ -6,6 +6,9 @@ edition = "2021"
 [lib]
 crate-type = ["cdylib", "rlib"]
 
+[build]
+rustflags = ["--cfg=sqlx_macros_unstable"]
+
 [dependencies]
 axum = { version = "0.6.4", optional = true }
 console_error_panic_hook = "0.1"
@@ -19,13 +22,13 @@ log = "0.4"
 simple_logger = "4"
 tokio = { version = "1.25.0", optional = true }
 tower = { version = "0.4.13", optional = true }
-tower-http = { version = "0.4", features = ["fs"], optional = true }
+tower-http = { version = "0.4", features = ["fs", "cors"], optional = true }
 wasm-bindgen = "=0.2.88"
 thiserror = "1.0.38"
 tracing = { version = "0.1.37", optional = true }
 http = "0.2.8"
 leptos-use = "0.8.2"
-leptos_icons = { version = "0.1.0", default_features = false, features = ["IoTrash"] }
+leptos_icons = { version = "0.1.0", default_features = false, features = ["IoCall", "IoCheckmarkDoneCircleSharp"] }
 serde = { version = "1.0.192", features = ["derive"] }
 chrono = { version = "0.4.31", features = ["serde"] }
 ulid = { version = "1.1.0", features = ["serde"] }
@@ -33,8 +36,8 @@ sqlx = { version = "0.7.2", features = ["chrono", "postgres", "runtime-tokio"], 
 async-trait = { version = "0.1.74", optional = true }
 tower-cookies = { version = "0.9.0", optional = true }
 once_cell = { version = "1.18.0", optional = true }
-strum = { version = "0.25.0", optional = true, features = ["derive"] }
-pasetors = { version = "0.6.7", optional = true }
+strum = { version = "0.25.0", features = ["derive"] }
+pasetors = { version = "0.6.7", optional = true, features = ["paserk"] }
 anyhow = "1.0.75"
 leptos_animated_for = { version = "0.0.4", features = ["ssr"] }
 
@@ -56,7 +59,7 @@ ssr = [
     "dep:async-trait",
     "dep:tower-cookies",
     "dep:once_cell",
-    "dep:strum"
+    "dep:pasetors",
 ]
 
 

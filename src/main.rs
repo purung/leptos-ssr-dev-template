@@ -4,17 +4,22 @@ mod lpt;
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
-    use std::time::Duration;
+    use std::{env, time::Duration};
 
     use axum::routing::get;
     use axum::Router;
     use birds_psy::app::*;
     use birds_psy::fileserv::file_and_error_handler;
+    use http::{HeaderValue, Method};
     use leptos::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
-    use sqlx::postgres::PgPoolOptions;
+    use sqlx::{postgres::PgPoolOptions, migrate, migrate::Migrator};
+    use tower_cookies::CookieManagerLayer;
+    use tower_http::cors::CorsLayer;
 
     simple_logger::init_with_level(log::Level::Debug).expect("couldn't initialize logging");
+
+    static MIGRATOR: Migrator = migrate!();
 
     // Setting get_configuration(None) means we'll be using cargo-leptos's env values
     // For deployment these variables are:
@@ -26,14 +31,16 @@ async fn main() {
     let addr = leptos_options.site_addr;
     let routes = generate_route_list(App);
 
-    let pg_addr = option_env!("DATABASE_URL").unwrap();
+    let pg_addr = env::var("DATABASE_URL").unwrap();
 
     let pool = PgPoolOptions::new()
         .max_connections(3)
         .acquire_timeout(Duration::from_secs(5))
         .idle_timeout(Duration::from_secs(90))
-        .connect_lazy(pg_addr)
+        .connect_lazy(&pg_addr)
         .expect("can't connect to database");
+
+    MIGRATOR.run(&pool).await.expect("migrations to run smoothly");
 
     let app_state = lpt::AppState {
         leptos_options,
@@ -51,8 +58,19 @@ async fn main() {
         // .leptos_routes(&leptos_options, routes, || view! { <App /> })
         .leptos_routes_with_handler(routes, get(lpt::leptos_routes_handler))
         .fallback(file_and_error_handler)
+        .layer(CookieManagerLayer::new())
+        .layer(
+            CorsLayer::new()
+                .allow_origin(
+                    env::var("HOMEPAGE")
+                        .expect("homepage to be set for cors")
+                        .parse::<HeaderValue>()
+                        .expect("homepage to be a valid url"),
+                )
+                .allow_methods([Method::POST]),
+        )
         .with_state(app_state);
-        // .with_state(leptos_options);
+    // .with_state(leptos_options);
 
     // run our app with hyper
     // `axum::Server` is a re-export of `hyper::Server`
