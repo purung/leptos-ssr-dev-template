@@ -1,9 +1,11 @@
-#![feature(lazy_cell)]
+#![feature(lazy_cell, fn_traits)]
 
 use cfg_if::cfg_if;
 pub mod app;
 pub mod error_template;
 pub mod fileserv;
+#[cfg(feature = "ssr")]
+pub mod auth;
 
 cfg_if! { if #[cfg(feature = "hydrate")] {
     use leptos::*;
