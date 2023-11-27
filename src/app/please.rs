@@ -1,26 +1,25 @@
-// #[cfg(feature = "ssr")]
-// use std::sync::LazyLock;
+use cfg_if::cfg_if;
 
-use leptos::*;
-// #[cfg(feature = "ssr")]
-// use leptos_axum::redirect;
+cfg_if!( if #[cfg(feature = "ssr")] {
 
-use serde::de::DeserializeOwned;
-use serde::Serialize;
-use ulid::Ulid;
-
-#[cfg(feature = "ssr")]
+use once_cell::sync::Lazy;
 use async_trait::async_trait;
-#[cfg(feature = "ssr")]
+use leptos_axum::redirect;
+
 use super::errors::EyeError;
 
-use super::Contact;
+static HOMEPAGE: Lazy<String> =
+    Lazy::new(|| std::env::var("HOMEPAGE_URL").expect("homepage var to be set in the environment"));
 
-// #[cfg(feature = "ssr")]
-// static HOMEPAGE: LazyLock<String> =
-//     LazyLock::new(|| std::env::var("HOMEPAGE_URL").unwrap_or_default());
+fn reject_strangers() -> Option<User> {
+    let Some(MaybeUser::User(u)) = use_context::<MaybeUser>() else {
+        redirect("/login");
+        return None
+    };
+    Some(u)
+}
 
-#[cfg(feature = "ssr")]
+
 #[async_trait]
 pub trait Communicate<Subject, Dialect>
 where
@@ -32,31 +31,60 @@ where
     async fn all() -> Result<Vec<Subject>, EyeError>;
 }
 
-// #[server]
-// pub async fn add_contact_request(
-//     name: String,
-//     tel: String,
-//     special: String,
-// ) -> Result<(), ServerFnError> {
-//     Contact::new(name, tel, special).birth().await?;
-//     redirect(&HOMEPAGE);
-//     Ok(())
-// }
+    }
+);
+
+use leptos::*;
+use serde::de::DeserializeOwned;
+use serde::Serialize;
+use ulid::Ulid;
+
+
+use super::{Contact, MaybeUser, User};
+
+#[server(prefix = "/api", endpoint = "boka")]
+pub async fn add_contact_request(
+    name: String,
+    tel: String,
+    special: String,
+) -> Result<(), ServerFnError> {
+    Contact::new(name, tel, Some(special)).birth().await?;
+    redirect(&format!("{}/success", *HOMEPAGE));
+    Ok(())
+}
 
 #[server]
-pub async fn delete_contact_request(
-    ulid: Ulid
-) -> Result<(), ServerFnError> {
-    Contact::destroy(ulid).await.unwrap();
+pub async fn delete_contact_request(ulid: Ulid) -> Result<(), ServerFnError> {
+    if let Some(_) = reject_strangers() {
+        Contact::destroy(ulid).await?;
+    };
     Ok(())
 }
 
 #[server]
 pub async fn all_contact_requests() -> Result<Vec<Contact>, ServerFnError> {
-    Ok(Contact::all().await?)
+    if let Some(_) = reject_strangers() {
+        Ok(Contact::all().await?)
+    } else {
+        Ok(Vec::new())
+    }
 }
 
-#[server(Lol, "/api")]
-pub async fn lol() -> Result<Vec<Contact>, ServerFnError> {
-    Ok(vec![Contact::default()])
+#[server]
+pub async fn log_me_in(user: String, password: String) -> Result<(), ServerFnError> {
+    use crate::auth::*;
+    confirm_login_for(user, password).await?;
+    redirect("/");
+    Ok(())
+}
+
+#[server]
+pub async fn current_user() -> Result<User, ServerFnError> {
+    Ok(reject_strangers().ok_or(EyeError::AuthError)?)
+}
+
+
+#[server]
+pub async fn perhaps_user() -> Result<MaybeUser, ServerFnError> {
+    use_context::<MaybeUser>().ok_or(EyeError::AuthError.into())
 }
