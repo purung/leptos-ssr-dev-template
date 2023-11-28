@@ -55,7 +55,7 @@ pub async fn add_contact_request(
 
 #[server]
 pub async fn delete_contact_request(ulid: Ulid) -> Result<(), ServerFnError> {
-    if let Some(_) = reject_strangers() {
+    if reject_strangers().is_some() {
         Contact::destroy(ulid).await?;
     };
     Ok(())
@@ -63,7 +63,7 @@ pub async fn delete_contact_request(ulid: Ulid) -> Result<(), ServerFnError> {
 
 #[server]
 pub async fn all_contact_requests() -> Result<Vec<Contact>, ServerFnError> {
-    if let Some(_) = reject_strangers() {
+    if reject_strangers().is_some() {
         Ok(Contact::all().await?)
     } else {
         Ok(Vec::new())

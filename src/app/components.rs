@@ -15,7 +15,7 @@ pub fn Login() -> impl IntoView {
     let error = Signal::derive(move || match gogogo.value().get() {
         Some(r) => match r {
             Ok(_) => None,
-            Err(e) => e.to_string().split_once(": ").and_then(|s| Some(s.1.to_owned())),
+            Err(e) => e.to_string().split_once(": ").map(|s| s.1.to_owned()),
         },
         None => None,
     });

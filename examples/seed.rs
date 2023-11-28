@@ -6,11 +6,11 @@ use ulid::Ulid;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let many_names  = vec!["Inigo Montoya", "Darth Vader", "Emperor"];
+    let many_names  = ["Inigo Montoya", "Darth Vader", "Emperor"];
     let mut names = many_names.iter().cycle();
-    let lines = vec!["Hello. My name is Inigo Montoya. You killed my father! Prepare to die.", "No, Luke, I am your father.", "Now, young Skywalker, you will die."];
+    let lines = ["Hello. My name is Inigo Montoya. You killed my father! Prepare to die.", "No, Luke, I am your father.", "Now, young Skywalker, you will die."];
     let mut special = lines.iter().cycle();
-    let nos = vec!["07234987234", "4673409229"];
+    let nos = ["07234987234", "4673409229"];
     let mut tel = nos.iter().cycle();
 
     let pool = PgPoolOptions::new().connect(env!("DATABASE_URL")).await?;

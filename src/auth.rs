@@ -113,13 +113,13 @@ impl User {
     fn password(&self, password: String) -> Result<(), AuthError> {
         if let Some(correct) = ENTRY_PHRASE.get(self) {
             if &password == correct {
-                return Ok(());
+                Ok(())
             } else {
-                return Err(AuthError::NotFound);
+                Err(AuthError::NotFound)
             }
         } else {
-            return Err(AuthError::NotFound);
-        };
+            Err(AuthError::NotFound)
+        }
     }
 }
 
@@ -144,7 +144,7 @@ impl TryFrom<&Claims> for User {
             .get_claim("sub")
             .and_then(|v| v.as_str())
             .ok_or(AuthError::Missing)?;
-        Ok(Self::try_from(user).map_err(|_| AuthError::Missing)?)
+        Self::try_from(user).map_err(|_| AuthError::Missing)
     }
 }
 

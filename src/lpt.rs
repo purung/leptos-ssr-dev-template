@@ -35,7 +35,7 @@ pub async fn server_fn_handler(
         move || {
             provide_context(app_state.pool.clone());
             provide_context(app_state.leptos_options.clone());
-            provide_context(maybeuser.clone());
+            provide_context(maybeuser);
             provide_context(cookies.clone());
         },
         request,
@@ -55,7 +55,7 @@ pub async fn leptos_routes_handler(
         move || {
             provide_context(app_state.pool.clone());
             provide_context(app_state.leptos_options.clone());
-            provide_context(maybeuser.clone());
+            provide_context(maybeuser);
             provide_context(cookies.clone());
         },
         App,

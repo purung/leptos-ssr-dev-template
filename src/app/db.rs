@@ -32,7 +32,7 @@ impl Communicate<Contact, PgPool> for Contact {
         .bind(&self.name)
         .bind(&self.tel)
         .bind(&self.special)
-        .bind(&self.timestamp)
+        .bind(self.timestamp)
         .execute(&Self::power().await?)
         .await?;
         Ok(())
@@ -62,14 +62,14 @@ impl Communicate<Contact, PgPool> for Contact {
         Ok(rows)
     }
 }
-impl Into<Contact> for PgCard {
-    fn into(self) -> Contact {
+impl From<PgCard> for Contact {
+    fn from(val: PgCard) -> Self {
         Contact {
-            stamp: Ulid::from_string(&self.uuid).unwrap_or_default(),
-            name: self.name,
-            tel: self.tel,
-            special: self.special,
-            timestamp: self.timestamp,
+            stamp: Ulid::from_string(&val.uuid).unwrap_or_default(),
+            name: val.name,
+            tel: val.tel,
+            special: val.special,
+            timestamp: val.timestamp,
         }
     }
 }
