@@ -1,0 +1,66 @@
+# Chose the builder image
+# `gnu` is the default target for rust but needs a specific version of GLIBC on the target system
+# `musl` is the way smaller one which only need the linux kernel
+#
+# note: you may need to adopt the image in the 2nd stage down below, if you change this
+#FROM leptos-builder-gnu AS builder
+FROM leptos-builder-musl AS builder
+
+# I usually do testing with a real database deployed somewhere in the network
+# ARG TEST_ENV_IP=192.168.220.21
+# ENV DATABASE_URL="postgresql://localdev:123SuperSafe@$TEST_ENV_IP:5432/localdev"
+
+WORKDIR /work
+
+# IMPORTANT: have a `.dockerignore` file and exclude at least your `target`
+# directory to not copy huge amounts of data into the docker context
+#
+# !!! EVEN MORE IMPORTANT !!!
+# If you have any secrets in a `.env` file or something, add this to `.dockerignore` too!
+COPY . .
+
+# this small workaround fixes a chicken and egg problem with `rust_embed` in this template
+# so we can check clippy before actually compiling
+RUN mkdir -p target/site
+# make sure we exit early if clippy is not happy
+RUN cargo clippy -- -D warnings
+
+# execute tests first
+# RUN cargo leptos test
+
+# after successful tests, build it
+RUN cargo leptos build --release
+
+########################################
+########################################
+########################################
+
+# If you want to be able to debug the image later and `exec` into the container,
+# change this line to alpine instead of scratch. This should only be done for
+# debugging / testing, since scratch is way more secure.
+FROM scratch as app
+#FROM alpine:3.18.2 as app
+
+# use this image instead of one from below, if you are using the `leptos-builder-gnu`
+# as your `builder` in stage 1
+#FROM gcr.io/distroless/cc:debug
+
+# Must match your `output-name` from the `metadata.leptos` until the next release
+ENV LEPTOS_OUTPUT_NAME=birds-psy
+ENV LEPTOS_SITE_ROOT=site
+ENV LEPTOS_SITE_PKG_DIR=pkg
+ENV LEPTOS_SITE_ADDR="0.0.0.0:3000"
+ENV LEPTOS_RELOAD_PORT=3001
+
+USER 10001
+
+WORKDIR /app
+
+COPY --chown=10001:10001 --from=builder /work/target/site/ ./site/
+COPY --chown=10001:10001 --from=builder /work/target/server/release/server .
+
+# depends on the port you choose
+EXPOSE 3000
+
+# must match your final server executable name
+ENTRYPOINT ["/app/server"]

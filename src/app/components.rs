@@ -1,7 +1,7 @@
 use leptos::*;
 use leptos_icons::*;
 
-use leptos_animated_for::AnimatedFor;
+// use leptos_animated_for::AnimatedFor;
 use leptos_router::ActionForm;
 
 use crate::app::all_contact_requests;
@@ -112,15 +112,10 @@ pub fn CardCollection() -> impl IntoView {
              } >
                 <h1 class="text-3xl text-center text-accent m-12 font-bold">Uppringningslista</h1>
                 <div class="m-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-screen-xl mx-auto">
-                     <AnimatedFor
+                     <For
                         each=cards
                         key=|card| card.stamp
                         children=move |card| view! { <ContactCard card reversion /> }
-                        enter_from_class="opacity-0"
-                        enter_class="duration-1000"
-                        move_class="duration-1000"
-                        leave_class="opacity-0 duration-1000"
-                        appear=true
                     />
                 </div>
             </ErrorBoundary>
