@@ -24,7 +24,7 @@ COPY . .
 # Build the app
 RUN cargo leptos build --release -vv
 
-FROM rustlang/rust:nightly-bullseye as runner
+FROM rustlang/rust:nightly-bullseye-slim as runner
 # Copy the server binary to the /app directory
 COPY --from=builder /app/target/release/birds_psy /app/
 # /target/site contains our JS/WASM/CSS, etc.
@@ -35,11 +35,11 @@ WORKDIR /app
 
 # Set any required env variables and
 ENV RUST_LOG="info"
-ENV APP_ENVIRONMENT="production"
+ENV LEPTOS_ENV=PROD
 ENV LEPTOS_SITE_ADDR="0.0.0.0:8080"
-ENV LEPTOS_OUTPUT_NAME=birds-psy
+ENV LEPTOS_OUTPUT_NAME="birds-psy"
 ENV LEPTOS_SITE_ROOT=site
 ENV LEPTOS_SITE_PKG_DIR=pkg
 EXPOSE 8080
 # Run the server
-CMD ["/app/birds-psy"]
+CMD ["/app/birds_psy"]
