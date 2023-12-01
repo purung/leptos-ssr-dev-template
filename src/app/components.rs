@@ -70,7 +70,7 @@ pub fn ContactCard(card: Contact, reversion: Callback<()>) -> impl IntoView {
     let tel_link = card.tel_link();
     let human_ts = card.human_timestamp();
     view! {
-        <div class="card w-96 relative bg-accent text-base-100 rounded-lg shadow-lg self-stretch">
+        <div class="card w-96 h-fit relative bg-accent text-base-100 rounded-lg shadow-lg self-stretch">
           <div class="card-body">
             <h2 class="card-title mt-6 mb-3">{ card.name }</h2>
             <p>{ card.tel }</p>
