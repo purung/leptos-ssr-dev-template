@@ -13,9 +13,10 @@ async fn main() {
     use http::{HeaderValue, Method};
     use leptos::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
-    use sqlx::{postgres::PgPoolOptions, migrate, migrate::Migrator};
+    use sqlx::{migrate, migrate::Migrator, postgres::PgPoolOptions};
     use tower_cookies::CookieManagerLayer;
     use tower_http::cors::CorsLayer;
+    use tracing::info;
 
     simple_logger::init_with_level(log::Level::Debug).expect("couldn't initialize logging");
 
@@ -40,13 +41,26 @@ async fn main() {
         .connect_lazy(&pg_addr)
         .expect("can't connect to database");
 
-    MIGRATOR.run(&pool).await.expect("migrations to run smoothly");
+    MIGRATOR
+        .run(&pool)
+        .await
+        .expect("migrations to run smoothly");
 
     let app_state = lpt::AppState {
         leptos_options,
         pool: pool.clone(),
         routes: routes.clone(),
     };
+    let cors_layer = CorsLayer::new()
+        .allow_origin(
+            env::var("HOMEPAGE")
+                .expect("homepage to be set for cors")
+                .parse::<HeaderValue>()
+                .expect("homepage to be a valid url"),
+        )
+        .allow_methods([Method::POST, Method::GET]);
+
+    info!("{:?}", cors_layer);
 
     // build our application with a route
     let app = Router::new()
@@ -59,16 +73,8 @@ async fn main() {
         .leptos_routes_with_handler(routes, get(lpt::leptos_routes_handler))
         .fallback(file_and_error_handler)
         .layer(CookieManagerLayer::new())
-        .layer(
-            CorsLayer::new()
-                .allow_origin(
-                    env::var("HOMEPAGE")
-                        .expect("homepage to be set for cors")
-                        .parse::<HeaderValue>()
-                        .expect("homepage to be a valid url"),
-                )
-                .allow_methods([Method::POST]),
-        )
+        // .layer(TraceLayer::new_for_http())
+        .layer(cors_layer)
         .with_state(app_state);
     // .with_state(leptos_options);
 
