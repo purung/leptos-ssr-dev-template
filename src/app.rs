@@ -114,7 +114,7 @@ pub fn App() -> impl IntoView {
         }>
             <main>
                 <Routes>
-                        <Route path="" view=HomePage/>
+                        <Route path="" view=HomePage ssr=SsrMode::Async />
                     <Route path="/login" view=Login />
                 </Routes>
             </main>
