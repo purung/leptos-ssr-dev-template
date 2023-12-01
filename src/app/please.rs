@@ -9,7 +9,11 @@ use leptos_axum::redirect;
 use super::errors::EyeError;
 
 static HOMEPAGE: Lazy<String> =
-    Lazy::new(|| std::env::var("HOMEPAGE_URL").expect("homepage var to be set in the environment"));
+    Lazy::new(|| {
+        std::env::var("HOMEPAGE")
+        .expect("homepage var to be set in the environment")
+    }
+);
 
 fn reject_strangers() -> Option<User> {
     let Some(MaybeUser::User(u)) = use_context::<MaybeUser>() else {
@@ -39,7 +43,6 @@ use serde::de::DeserializeOwned;
 use serde::Serialize;
 use ulid::Ulid;
 
-
 use super::{Contact, MaybeUser, User};
 
 #[server(prefix = "/api", endpoint = "boka")]
@@ -49,7 +52,7 @@ pub async fn add_contact_request(
     special: String,
 ) -> Result<(), ServerFnError> {
     Contact::new(name, tel, Some(special)).birth().await?;
-    redirect(&format!("{}/success", *HOMEPAGE));
+    redirect(&format!("{}/succe", *HOMEPAGE));
     Ok(())
 }
 
@@ -82,7 +85,6 @@ pub async fn log_me_in(user: String, password: String) -> Result<(), ServerFnErr
 pub async fn current_user() -> Result<User, ServerFnError> {
     Ok(reject_strangers().ok_or(EyeError::AuthError)?)
 }
-
 
 #[server]
 pub async fn perhaps_user() -> Result<MaybeUser, ServerFnError> {
