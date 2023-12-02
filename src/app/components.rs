@@ -20,32 +20,32 @@ pub fn Login() -> impl IntoView {
         None => None,
     });
     view! {
-        <main class="bg-primary min-h-[100svh] grid">
-            <div class="place-self-center px-8 py-12 w-[90vw] max-w-sm bg-accent rounded-lg shadow-lg">
+        <main class="bg-base-100 min-h-[100svh] grid">
+            <div class="place-self-center px-8 py-12 w-[90vw] max-w-sm bg-primary rounded-lg shadow-lg">
                 <ActionForm action=gogogo class="flex flex-col gap-8">
-                    <h4 class="text-lg text-base-100 text-center font-bold">Logga in</h4>
+                    <h4 class="text-lg text-primary-content text-center font-bold">Logga in</h4>
                     <p class="text-center text-base-100">{ move || error.get() }</p>
                     <div class="form-control">
-                        <label class="label text-base-100">Namn</label>
+                        <label class="label text-primary-content">Namn</label>
                         <input
                             name="user"
                             inputmode="text"
                             required
-                            class="input input-bordered input-base-100 w-full"
+                            class="input input-bordered input-secondary w-full"
                         />
                     </div>
                     <div class="form-control">
-                        <label class="label text-base-100">Lösenord</label>
+                        <label class="label text-primary-content">Lösenord</label>
                         <input
                             name="password"
                             type="password"
                             required
-                            class="input input-bordered input-base-100 w-full"
+                            class="input input-bordered input-secondary w-full"
                         />
                     </div>
                     <div class="form-control grow">
                         <button
-                            class="btn btn-secondary hover:btn-outline text-accent hover:btn-secondary"
+                            class="btn btn-secondary btn-outline text-accent hover:btn-active"
                             type="submit"
                             id="skickaKnapp"
                             >
@@ -70,7 +70,7 @@ pub fn ContactCard(card: Contact, reversion: Callback<()>) -> impl IntoView {
     let tel_link = card.tel_link();
     let human_ts = card.human_timestamp();
     view! {
-        <div class="card w-96 h-fit relative bg-accent text-base-100 rounded-lg shadow-lg self-stretch">
+        <div class="card w-96  relative bg-primary text-primary-content rounded-lg shadow-lg self-stretch">
           <div class="card-body">
             <h2 class="card-title mt-6 mb-3">{ card.name }</h2>
             <p>{ card.tel }</p>
@@ -110,8 +110,8 @@ pub fn CardCollection() -> impl IntoView {
                   <span>"Error! Task failed successfully."</span>
                 </div>
              } >
-                <h1 class="text-3xl text-center text-accent m-12 font-bold">Uppringningslista</h1>
-                <div class="m-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-screen-xl mx-auto">
+                <h1 class="text-3xl text-center text-primary m-12 font-bold">Uppringningslista</h1>
+                <div class="m-2 grid grid-cols-1 sm:grid-cols-2 w-fit xl:grid-cols-3 gap-4 max-w-screen-xl px-2 xl:px-0 mx-auto">
                      <For
                         each=cards
                         key=|card| card.stamp

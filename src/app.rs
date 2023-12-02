@@ -114,7 +114,7 @@ pub fn App() -> impl IntoView {
         }>
             <main>
                 <Routes>
-                        <Route path="" view=HomePage ssr=SsrMode::Async />
+                    <Route path="" view=HomePage ssr=SsrMode::Async />
                     <Route path="/login" view=Login />
                 </Routes>
             </main>
@@ -126,7 +126,7 @@ pub fn App() -> impl IntoView {
 #[component]
 fn HomePage() -> impl IntoView {
     view! {
-        <main class="bg-primary min-h-[100svh] grid">
+        <main class="bg-base-100 min-h-[100svh]">
             <CardCollection />
         </main>
     }
