@@ -11,23 +11,19 @@ module.exports = {
     },
   },
   daisyui: {
+    darkTheme: "business",
     themes: [
       {
         hoc: {
          neutral: '#090606',
-         'base-100': '#f7f3f3',
-         primary: '#7ea6a9',
-         secondary: '#dac9c8',
-         accent: '#567e81',
-        },
-        dark: {
-         'neutral': '#e9f0f1',
-         'base-100': '#121a1c',
-         'primary': '#4c2946',
-         'secondary': '#061518',
-         'accent': '#907e5a',
+         secondary: '#f7f3f3',
+         "primary-content": '#f7f3f3',
+         'base-100': '#7ea6a9',
+         accent: '#dac9c8',
+         primary: '#567e81',
         },
       },
+      "business"
     ],
   },
   plugins: [require("daisyui")],
