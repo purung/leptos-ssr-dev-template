@@ -14,3 +14,4 @@ playwright/.cache/
 .sass-cache
 .env
 .pg
+public/service-worker.js
